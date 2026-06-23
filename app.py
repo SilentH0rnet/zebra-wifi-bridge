@@ -42,8 +42,8 @@ app = Flask(__name__)
 # ---------------------------------------------------------------------------
 PRINTER_DEVICE = os.environ.get("ZPL_PRINTER_DEVICE", "/dev/usb/lp0")
 API_KEY = os.environ.get("ZPL_API_KEY", "changeme")  # unbedingt ändern!
-HOST = "0.0.0.0"
-PORT = 8080
+HOST = os.environ.get("ZPL_HOST", "0.0.0.0")
+PORT = int(os.environ.get("ZPL_PORT", "8080"))
 
 
 # ---------------------------------------------------------------------------
