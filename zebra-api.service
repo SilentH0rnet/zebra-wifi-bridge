@@ -6,8 +6,8 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/zebra-api
-ExecStart=/usr/bin/python3 /home/pi/zebra-api/app.py
+WorkingDirectory=/home/pi/zebra-wifi-bridge
+ExecStart=/usr/bin/python3 /home/pi/zebra-wifi-bridge/app.py
 Environment=ZPL_API_KEY=changeme
 Environment=ZPL_PRINTER_DEVICE=/dev/usb/lp0
 Restart=on-failure
