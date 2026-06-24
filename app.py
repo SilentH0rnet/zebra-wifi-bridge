@@ -53,7 +53,7 @@ def require_api_key():
     """Gibt None zurück wenn ok, sonst ein (response, status) Tupel."""
     key = request.headers.get("X-API-Key")
     if key != API_KEY:
-        return jsonify({"error": "ungültiger oder fehlender API-Key"}), 401
+        return jsonify({"error": "Invalid or missing API key"}), 401
     return None
 
 
@@ -101,14 +101,14 @@ def print_raw():
 
     zpl_data = request.get_data()
     if not zpl_data:
-        return jsonify({"error": "kein ZPL-Inhalt im Body"}), 400
+        return jsonify({"error": "no ZPL content in the body"}), 400
 
     try:
         send_zpl(zpl_data)
     except FileNotFoundError as e:
         return jsonify({"error": str(e)}), 503
     except OSError as e:
-        return jsonify({"error": f"Schreibfehler auf Drucker: {e}"}), 500
+        return jsonify({"error": f"Typo on printer: {e}"}), 500
 
     return jsonify({"status": "ok", "bytes_sent": len(zpl_data)}), 200
 
@@ -126,7 +126,7 @@ def print_label():
     payload = request.get_json(silent=True) or {}
     text = payload.get("text")
     if not text:
-        return jsonify({"error": "Feld 'text' ist erforderlich"}), 400
+        return jsonify({"error": "Field 'text' is required"}), 400
 
     barcode = payload.get("barcode")
     x = int(payload.get("x", 50))
@@ -139,12 +139,12 @@ def print_label():
     except FileNotFoundError as e:
         return jsonify({"error": str(e)}), 503
     except OSError as e:
-        return jsonify({"error": f"Schreibfehler auf Drucker: {e}"}), 500
+        return jsonify({"error": f"Typo on printer: {e}"}), 500
 
     return jsonify({"status": "ok", "zpl_sent": zpl}), 200
 
 
 if __name__ == "__main__":
-    print(f"Zebra-API läuft auf http://{HOST}:{PORT}")
-    print(f"Druckergerät: {PRINTER_DEVICE}")
+    print(f"Zebra-API running on http://{HOST}:{PORT}")
+    print(f"Printer: {PRINTER_DEVICE}")
     app.run(host=HOST, port=PORT, debug=False)
